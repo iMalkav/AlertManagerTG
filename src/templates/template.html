@@ -1,0 +1,14 @@
+﻿{% if message.status == 'firing' %}
+{{ message.startsAt }}
+🔥**Новое уведомление**🔥
+{% else %}
+{{ message.endsAt}}
+✅**Решено**✅ (За {{ lasted }})
+{% endif %}
+**Событие**: __{{message.labels.alertname}}__
+**Произошло** на: __{{message.labels.instance}}__
+**Задача**: __{{message.labels.job}}__
+**Критичность**: __{{message.labels.severity}}__
+**Название**: __{{message.annotations.description}}__
+**Сообщение**:
+__{{message.annotations.summary}}__
