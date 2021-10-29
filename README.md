@@ -1,6 +1,8 @@
 Run standalone:
 1. Rename conf.yml.example to conf.yml
 2. Change block cli(Add your api_id and hash)
+3. Install requirements.txt
+4. Run python AlertManagerTG.py 
 In first run, u need auth to telegram. After that u can move to other machine *.session file.
 
 After that, u need configure your rules in alertmanager and prometheus
