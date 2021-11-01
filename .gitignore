@@ -44,6 +44,9 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.vscode
+*.pyproj
+.suo
 nosetests.xml
 coverage.xml
 *.cover
@@ -132,3 +135,4 @@ dmypy.json
 #Telegram 
 *.session
 conf.yml
+

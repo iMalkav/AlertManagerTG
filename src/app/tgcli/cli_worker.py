@@ -26,7 +26,8 @@ class TGCli(object):
         for contact in contacts:
             if contact.phone_number in phone:
                 return contact
-        fgfg = await self.cliapp.import_contacts([InputPhoneContact(phone, phone),])
+        contact = await self.cliapp.import_contacts([InputPhoneContact(phone, phone),])
+        return contact.users[0]
         
 
 
