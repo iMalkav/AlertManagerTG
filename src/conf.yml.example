@@ -1,5 +1,6 @@
 global:
    type: bot
+   lang: ru-RU
    log_level: INFO
    port: 9095
    alertmanager: http://alertmanager:9093
