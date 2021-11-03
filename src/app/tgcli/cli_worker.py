@@ -7,6 +7,7 @@ from pyrogram.types import InputPhoneContact
 from pyrogram.handlers import MessageHandler
 
 from app.config.settings import _config
+from app.lang import _lang
 
 
 
@@ -24,7 +25,7 @@ class TGCli(object):
     def who_am_i(self, client, message):
         logging.info('Recieve command "me" message from user({0}) Phone:{1} Name: {3} {2} Username:{4}'.format(message.from_user.id, message.from_user.phone_number,
                     message.from_user.last_name, message.from_user.first_name, message.from_user.username))
-        client.send_message(message.from_user.id, 'Ваш ID: {}'.format(message.from_user.id))
+        client.send_message(message.from_user.id, '{}: {}'.format(_lang.get('m_who_am_i') ,message.from_user.id))
 
 
     async def sendMsg(self, phone, msg):

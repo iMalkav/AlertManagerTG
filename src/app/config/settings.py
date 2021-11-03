@@ -8,6 +8,7 @@ class AlertMangerConfig():
             {
                 'type': str,
                 'log_level': str,
+                'lang': str,
                 'port': int
             },
             'telegram':{
@@ -35,6 +36,10 @@ class AlertMangerConfig():
     @property
     def webport(self):
         return self._settings['global']['port']
+
+    @property
+    def lang(self):
+        return self._settings['global']['lang']
 
     @property
     def logLevel(self):
