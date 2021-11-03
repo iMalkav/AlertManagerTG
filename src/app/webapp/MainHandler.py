@@ -16,7 +16,6 @@ from dateutil.parser import parse
 
 from app.webapp.BaseHandler import *
 from app.webapp import route
-from app.tgbot.tgworker import worker
 from app.tgcli.cli_worker import cliWorker
 
 from app.config.settings import _config

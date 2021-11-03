@@ -6,16 +6,12 @@ class AlertMangerConfig():
     TEMPLATE = {
             'global':
             {
-                'type': str,
                 'log_level': str,
                 'lang': str,
-                'port': int
+                'port': int,
+                'prometheus': str
             },
             'telegram':{
-                'bot':
-                {
-                    'token': str,                    
-                },
                 'cli':
                 {
                     'api_id': int,
@@ -46,14 +42,6 @@ class AlertMangerConfig():
         return self._settings['global']['log_level']
 
     @property
-    def tgType(self):
-        return self._settings['global']['type']
-
-    @property
-    def botToken(self):
-        return self._settings['telegram']['bot']['token']
-
-    @property
     def cliSession(self):
         return self._settings['telegram']['cli']['session']
 
@@ -70,8 +58,8 @@ class AlertMangerConfig():
         return self._settings['telegram']['admins']
 
     @property
-    def alertmanager(self):
-        return self._settings['global']['alertmanager']
+    def prometheus(self):
+        return self._settings['global']['prometheus']
 
 
 _config = AlertMangerConfig()

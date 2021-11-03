@@ -5,7 +5,6 @@ import time
 import sys
 
 from app.config.settings import _config
-from app.tgbot.tgworker import worker
 from app.webapp.MainHandler import *
 
 
@@ -30,8 +29,6 @@ def exit_gracefully(signum, frame):
 def main():
     logging.basicConfig(format="%(asctime)s %(levelname)s\t%(name)s:%(message)s", level= _config._settings['global']['log_level'])
     logging.getLogger("server.worker").setLevel(_config.logLevel)
-    worker.regHandler()
-    worker.start()
     app = make_app()
     app.listen(_config.webport)
     try:
