@@ -3,6 +3,7 @@ global:
    log_level: INFO
    port: 9095
    prometheus: http://prometheus:9090
+   ssl_verification: False
 telegram:
    cli: # Get it in https://core.telegram.org/api/obtaining_api_id
     api_id: 123456

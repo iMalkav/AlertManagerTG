@@ -9,6 +9,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
+from app.prometheus.exceptions import PrometheusApiClientException
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,16 +26,14 @@ RETRY_ON_STATUS = [408, 429, 500, 502, 503, 504]
 class PromClient(object):
 
     def __init__(self, *args, **kwargs):
-        self.api_url = _config.prometheus + '/api/v0/'
-
-        if retry is None:
-            retry = Retry(
+        self.api_url = _config.prometheus + '/api/v1'
+        retry = Retry(
                 total=MAX_REQUEST_RETRIES,
                 backoff_factor=RETRY_BACKOFF_FACTOR,
                 status_forcelist=RETRY_ON_STATUS,
-            )
-        self.session = requests.Session()
-        self._session.mount(self.url, HTTPAdapter(max_retries=retry))
+        )
+        self._session = requests.Session()
+        self._session.mount(_config.prometheus, HTTPAdapter(max_retries=retry))
 
     def check_prometheus_connection(self, params: dict = None) -> bool:
         response = self._session.get(
@@ -42,3 +42,18 @@ class PromClient(object):
             params=params,
         )
         return response.ok
+
+    def get_alerts(self):
+        data = []
+
+        response = self._session.get(
+            '{}/alerts'.format(self.api_url),
+            verify= _config.ssl_verification,
+            )
+        if response.status_code == 200:
+            data += response.json()["data"]["alerts"]
+        else:
+            raise PrometheusApiClientException(
+                "HTTP Status Code {} ({!r})".format(response.status_code, response.content)
+            )
+        return data

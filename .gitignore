@@ -137,6 +137,7 @@ dmypy.json
 
 #Telegram 
 *.session
+*.session-journal
 conf.yml
 
 

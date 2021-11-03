@@ -10,6 +10,7 @@ from app.config.settings import _config
 from app.lang import _lang
 
 from app.tgcli.admin import *
+from app.tgcli.monitoring import *
 
 
 
@@ -24,6 +25,8 @@ class TGCli(object):
     def reg_handler(self):
         self.cliapp.add_handler(MessageHandler(self.who_am_i, filters.command("me", '!')))
         self.cliapp.add_handler(MessageHandler(service_state, filters.command("state", '!')))
+        self.cliapp.add_handler(MessageHandler(prometheus_state, filters.command("prom", '!')))
+        self.cliapp.add_handler(MessageHandler(alerts_state, filters.command("alerts", '!')))
 
     def stop(self):
         self.cliapp.stop()
