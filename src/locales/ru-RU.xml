@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LanguageDictionary>
   <String key="m_who_am_i">Ваш ID</String>
+  <String key="m_state">Статус</String>
+  <String key="m_ver">Версия</String>
 </LanguageDictionary>

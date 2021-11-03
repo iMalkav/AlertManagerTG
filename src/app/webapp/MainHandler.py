@@ -29,8 +29,7 @@ class Alerts(BaseHandler):
         messages = yield self.backgroud_task() 
         for phone, messages in messages.items():
             yield cliWorker.sendMsg(phone, '\n'.join(messages))
-        return 200;
-
+        return 200
 
     @run_on_executor
     def backgroud_task(self):

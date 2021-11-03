@@ -9,15 +9,21 @@ from pyrogram.handlers import MessageHandler
 from app.config.settings import _config
 from app.lang import _lang
 
+from app.tgcli.admin import *
+
 
 
 class TGCli(object):
 
     def __init__(self, *args, **kwargs):
         self.cliapp = Client(_config.cliSession, _config.cliApiId, _config.cliApiHash)
-        self.cliapp.start()
-        self.cliapp.add_handler(MessageHandler(self.who_am_i, filters.command("me", '!')))
+        self.cliapp.start()    
+        self.reg_handler()
         self.CONTACTS = self.cliapp.get_contacts()
+
+    def reg_handler(self):
+        self.cliapp.add_handler(MessageHandler(self.who_am_i, filters.command("me", '!')))
+        self.cliapp.add_handler(MessageHandler(service_state, filters.command("state", '!')))
 
     def stop(self):
         self.cliapp.stop()

@@ -44,15 +44,18 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-.vscode
-*.pyproj
-.suo
 nosetests.xml
 coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
 .pytest_cache/
+
+#IDE files
+*.sln
+.vscode
+*.pyproj
+.suo
 
 # Translations
 *.mo
@@ -135,4 +138,5 @@ dmypy.json
 #Telegram 
 *.session
 conf.yml
+
 
