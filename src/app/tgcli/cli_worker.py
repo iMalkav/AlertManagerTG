@@ -15,7 +15,7 @@ class TGCli(object):
     def __init__(self, *args, **kwargs):
         self.cliapp = Client(_config.cliSession, _config.cliApiId, _config.cliApiHash)
         self.cliapp.start()
-        self.cliapp.add_handler(MessageHandler(self.dump, filters.command("me", '!')))
+        self.cliapp.add_handler(MessageHandler(self.who_am_i, filters.command("me", '!')))
         self.CONTACTS = self.cliapp.get_contacts()
 
     def stop(self):
