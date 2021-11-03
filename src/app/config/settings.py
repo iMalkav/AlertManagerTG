@@ -9,7 +9,8 @@ class AlertMangerConfig():
                 'log_level': str,
                 'lang': str,
                 'port': int,
-                'prometheus': str
+                'prometheus': str,
+                'ssl_verification': bool
             },
             'telegram':{
                 'cli':
@@ -40,6 +41,10 @@ class AlertMangerConfig():
     @property
     def logLevel(self):
         return self._settings['global']['log_level']
+
+    @property
+    def ssl_verification(self):
+        return self._settings['global']['ssl_verification']
 
     @property
     def cliSession(self):
