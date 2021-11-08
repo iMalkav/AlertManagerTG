@@ -11,6 +11,7 @@ from app.lang import _lang
 
 from app.tgcli.admin import *
 from app.tgcli.monitoring import *
+from app.tgcli.help import *
 
 
 
@@ -27,6 +28,9 @@ class TGCli(object):
         self.cliapp.add_handler(MessageHandler(service_state, filters.command("state", '!')))
         self.cliapp.add_handler(MessageHandler(prometheus_state, filters.command("prom", '!')))
         self.cliapp.add_handler(MessageHandler(alerts_state, filters.command("alerts", '!')))
+        self.cliapp.add_handler(MessageHandler(metric_state, filters.command("metric", '!')))
+        self.cliapp.add_handler(MessageHandler(help, filters.command("help", '!')))
+        self.cliapp.add_handler(MessageHandler(man, filters.command("man", '!')))
 
     def stop(self):
         self.cliapp.stop()
