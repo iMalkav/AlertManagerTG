@@ -9,6 +9,7 @@ from pyrogram.handlers import MessageHandler
 from app.config.settings import _config
 from app.lang import _lang
 
+from app.tgcli.commands import _command
 from app.tgcli.admin import *
 from app.tgcli.monitoring import *
 from app.tgcli.help import *
@@ -24,13 +25,13 @@ class TGCli(object):
         self.CONTACTS = self.cliapp.get_contacts()
 
     def reg_handler(self):
-        self.cliapp.add_handler(MessageHandler(self.who_am_i, filters.command("me", '!')))
-        self.cliapp.add_handler(MessageHandler(service_state, filters.command("state", '!')))
-        self.cliapp.add_handler(MessageHandler(prometheus_state, filters.command("prom", '!')))
-        self.cliapp.add_handler(MessageHandler(alerts_state, filters.command("alerts", '!')))
-        self.cliapp.add_handler(MessageHandler(metric_state, filters.command("metric", '!')))
-        self.cliapp.add_handler(MessageHandler(help, filters.command("help", '!')))
-        self.cliapp.add_handler(MessageHandler(man, filters.command("man", '!')))
+        self.cliapp.add_handler(MessageHandler(self.who_am_i, filters.command(_command.get_command_name('me'), _command.get_command_pref('me'))))
+        self.cliapp.add_handler(MessageHandler(service_state, filters.command(_command.get_command_name('state'), _command.get_command_pref('state'))))
+        self.cliapp.add_handler(MessageHandler(prometheus_state, filters.command(_command.get_command_name('prom'), _command.get_command_pref('prom'))))
+        self.cliapp.add_handler(MessageHandler(alerts_state, filters.command(_command.get_command_name('alerts'), _command.get_command_pref('alerts'))))
+        self.cliapp.add_handler(MessageHandler(metric_state, filters.command(_command.get_command_name('metric'), _command.get_command_pref('metric'))))
+        self.cliapp.add_handler(MessageHandler(help, filters.command(_command.get_command_name('help'), _command.get_command_pref('help'))))
+        self.cliapp.add_handler(MessageHandler(man, filters.command(_command.get_command_name('man'), _command.get_command_pref('man'))))
 
     def stop(self):
         self.cliapp.stop()

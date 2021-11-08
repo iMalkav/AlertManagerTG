@@ -1,0 +1,28 @@
+me:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: me
+    description: Some description
+state:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: state
+    description: Some description
+prom:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: prom
+    description: Some description
+alerts:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: alerts
+    description: Some description
+metric:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: metric
+    description: Some description
+help:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: help
+    description: Some description
+man:
+    command_pref: "!" #A prefix or a list of prefixes as string the filter should look for. Examples: ".", "!", "/"
+    command_name: man
+    description: Some description
