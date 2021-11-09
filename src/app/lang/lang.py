@@ -8,11 +8,13 @@ class Lang(object):
 
     def __init__(self, *args, **kwargs):
         try:
+            file_path = os.path.abspath('locales/{}.xml'.format(_config.lang))
             logging.info('Load lang "{}"'.format(_config.lang))
-            self.tree = et.parse('locales\{}.xml'.format(_config.lang)).getroot()
+            self.tree = et.parse(file_path).getroot()
         except:
             logging.info('Fail load lang "{}", load default "ru-RU"'.format(_config.lang))
-            self.tree = et.parse('locales\\ru-RU.xml').getroot()
+            file_path = os.path.abspath('locales/ru-RU.xml'.format(_config.lang))
+            self.tree = et.parse(file_path).getroot()
 
         
     def get(self, key):

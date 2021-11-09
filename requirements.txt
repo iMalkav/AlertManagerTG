@@ -20,4 +20,6 @@ TgCrypto==1.2.2
 tornado==6.1
 tzdata==2021.5
 tzlocal==4.0.2
-matplotlib=3.3.4
+matplotlib==3.3.4
+requests==2.20.0
+pandas==0.20.1
