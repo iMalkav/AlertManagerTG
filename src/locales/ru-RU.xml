@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LanguageDictionary>
   <String key="m_who_am_i">Ваш ID</String>
+  <String key="m_state">Статус</String>
+  <String key="m_ver">Версия</String>
+  <String key="m_ok">Все ок</String>
+  <String key="m_wrong_args">Ошибка в аргументах комманды, воспользуйтесь подсказкой !man [command]</String>
+  <String key="m_no_data">Нет данных для отображения, проверьте правильность запроса</String>
 </LanguageDictionary>

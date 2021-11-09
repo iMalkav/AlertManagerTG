@@ -1,12 +1,10 @@
 global:
-   type: bot
    lang: ru-RU
    log_level: INFO
    port: 9095
-   alertmanager: http://alertmanager:9093
+   prometheus: http://prometheus:9090
+   ssl_verification: False
 telegram:
-   bot:
-    token: some token from @BotFather
    cli: # Get it in https://core.telegram.org/api/obtaining_api_id
     api_id: 123456
     api_hash: 000000000as000
