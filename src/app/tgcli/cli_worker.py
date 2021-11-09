@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
 import datetime
+import time
 
-from pyrogram import Client, filters
+from pyrogram import Client, filters, errors
 from pyrogram.types import InputPhoneContact
 from pyrogram.handlers import MessageHandler
 
@@ -29,8 +30,11 @@ class TGCli(object):
 
 
     async def sendMsg(self, phone, msg):
-        contact = await self.get_or_create_contact(phone)
-        await self.cliapp.send_message(contact.id, msg)
+        try:
+            contact = await self.get_or_create_contact(phone)
+            await self.cliapp.send_message(contact.id, msg) #TODO: Подумать над очередью если поймали флуд.
+        except errors.FloodWait as e:
+            time.sleep(e.x)
 
     async def get_or_create_contact(self, phone):
         for contact in self.CONTACTS:

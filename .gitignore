@@ -26,6 +26,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+temp.png
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -44,15 +46,18 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-.vscode
-*.pyproj
-.suo
 nosetests.xml
 coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
 .pytest_cache/
+
+#IDE files
+*.sln
+.vscode
+*.pyproj
+.suo
 
 # Translations
 *.mo
@@ -134,5 +139,5 @@ dmypy.json
 
 #Telegram 
 *.session
+*.session-journal
 conf.yml
-
