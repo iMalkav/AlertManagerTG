@@ -14,6 +14,7 @@ from app.tgcli.commands import _command
 from app.tgcli.admin import *
 from app.tgcli.monitoring import *
 from app.tgcli.help import *
+from app.tgcli.exeptions import NotFoundTGAccountException
 
 
 
@@ -55,8 +56,13 @@ class TGCli(object):
             if contact.phone_number in phone:
                 return contact
         contact = await self.cliapp.import_contacts([InputPhoneContact(phone, phone),])
-        self.CONTACTS.append(contact.users[0])
-        return contact.users[0]
+        if len(contact.users) > 0:
+            self.CONTACTS.append(contact.users[0])
+            return contact.users[0]
+        else:
+            raise NotFoundTGAccountException("No found telegramm account. Phone {}".format(phone))
+
+
 
 
 

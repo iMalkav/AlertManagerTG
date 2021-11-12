@@ -4,7 +4,7 @@ class CommandsConfig():
     COMMANDS_FILE = "commands.yml"
 
     TEMPLATE = {
-            'me':
+             'me':
                 {
                     'command_pref': str,
                     'command_name': str,

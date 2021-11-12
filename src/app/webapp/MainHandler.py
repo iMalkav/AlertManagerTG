@@ -17,7 +17,7 @@ from dateutil.parser import parse
 from app.webapp.BaseHandler import *
 from app.webapp import route
 from app.tgcli.cli_worker import cliWorker
-
+from app.tgcli.exeptions import NotFoundTGAccountException
 from app.config.settings import _config
 
 @route('/alerts', name = 'Receive alert from alertmanager')
@@ -28,7 +28,10 @@ class Alerts(BaseHandler):
     def post(self, *args, **kwargs):
         messages = yield self.backgroud_task() 
         for phone, messages in messages.items():
-            yield cliWorker.sendMsg(phone, '\n'.join(messages))
+            try:
+                yield cliWorker.sendMsg(phone, '\n'.join(messages))
+            except NotFoundTGAccountException:
+                pass #Skip phone
         return 200
 
     @run_on_executor
