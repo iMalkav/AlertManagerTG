@@ -2,7 +2,7 @@ APScheduler==3.6.3
 async-lru==1.0.2
 backports.zoneinfo==0.2.1
 cachetools==4.2.2
-certifi==2021.10.8
+certifi==2022.12.07
 confuse==1.6.0
 Jinja2==3.0.2
 MarkupSafe==2.0.1
