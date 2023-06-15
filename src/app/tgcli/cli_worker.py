@@ -47,9 +47,24 @@ class TGCli(object):
     async def sendMsg(self, phone, msg):
         try:
             contact = await self.get_or_create_contact(phone)
-            await self.cliapp.send_message(contact.id, msg) #TODO: Подумать над очередью если поймали флуд.
+            await self.cliapp.send_message(contact.id, msg)
         except errors.FloodWait as e:
             time.sleep(e.x)
+            self.sendMsg(phone, msg)
+
+    async def get_or_create_contact(self, phone):
+        phone_numbers = [contact.phone_number for contact in self.CONTACTS]
+        if phone_numbers and any(number in phone for number in phone_numbers):
+            return next(contact for contact in self.CONTACTS if contact.phone_number in phone)
+
+        contact = await self.cliapp.import_contacts([InputPhoneContact(phone, phone)])
+        if contact.users:
+            new_contact = contact.users[0]
+            self.CONTACTS.append(new_contact)
+            return new_contact
+        else:
+            raise NotFoundTGAccountException(f"No found telegramm account. Phone {phone}")
+
 
     async def get_or_create_contact(self, phone):
         for contact in self.CONTACTS:
