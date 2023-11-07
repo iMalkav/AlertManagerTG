@@ -1,10 +1,13 @@
+import os
+import sys
 import confuse
+
 
 class AlertMangerConfig():
     SETTINGS_FILE = "conf.yml"
 
     TEMPLATE = {
-            'global':
+        'global':
             {
                 'log_level': str,
                 'lang': str,
@@ -12,7 +15,7 @@ class AlertMangerConfig():
                 'prometheus': str,
                 'ssl_verification': bool
             },
-            'telegram':{
+            'telegram': {
                 'cli':
                 {
                     'api_id': int,
@@ -20,13 +23,18 @@ class AlertMangerConfig():
                     'session': str,
                 },
                 'admins': confuse.Sequence([
-                        int
-                        ])
+                    int
+                ])
             }
-        }
+    }
 
-    def __init__(self):
-        source = confuse.YamlSource(self.SETTINGS_FILE)
+    def __init__(self, base_path=None):
+        main_script_path = sys.argv[0]
+        main_script_dir = os.path.dirname(os.path.abspath(main_script_path))
+
+        file_path = os.path.join(
+            main_script_dir, self.SETTINGS_FILE)
+        source = confuse.YamlSource(file_path)
         self._settings = confuse.RootView([source])
         self._settings = self._settings.get(self.TEMPLATE)
 
