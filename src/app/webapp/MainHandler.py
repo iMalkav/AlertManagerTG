@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 from os import path
 import json
 import time
@@ -30,7 +31,7 @@ from app.config.settings import _config
 class Alerts(BaseHandler):
     executor = ThreadPoolExecutor(max_workers=4)
 
-    async def send_messages(phone, messages):
+    async def send_messages(self, phone, messages):
         """
         Asynchronously sends messages to a phone number.
 
@@ -53,7 +54,7 @@ class Alerts(BaseHandler):
         :param kwargs: Arbitrary keyword arguments.
         :return: An HTTP 200 response code.
         """
-        messages = await self.backgroud_task()
+        messages = await self.background_task()
         tasks = []
         with multiprocessing.Pool() as pool:
             for phone, messages in messages.items():
@@ -62,74 +63,81 @@ class Alerts(BaseHandler):
             await asyncio.gather(*tasks)
         return 200
 
+    # def process_alert(alert, j2_env, phones_to_messages):
+    #    """
+    #    Process an alert and send messages to associated phones.
+#
+    #    Args:
+    #        alert (dict): A dictionary containing information about the alert.
+    #        j2_env (jinja2.Environment): A Jinja2 environment object.
+#
+    #    Returns:
+    #        None
+    #    """
+    #    phones = alert['labels']['phone'].split('|')
+    #    if alert['status'] == 'resolved':
+    #        start_at = parse(alert['startsAt'])
+    #        ends_at = parse(alert['endsAt'])
+    #        duration = ends_at - start_at
+    #    else:
+    #        duration = '00:00:00'
+    #    msg = j2_env.get_template('template.html').render(
+    #        message=alert, lasted=str(duration))
+    #    for phone in phones:
+    #        if phone not in phones_to_messages:
+    #            phones_to_messages[phone] = []
+    #        phones_to_messages[phone].append(msg)
+#
+    # @run_on_executor
+    # def background_task(self):
+    #    """
+    #    Executes a background task that processes alerts and sends messages to phones.
+    #    Uses a thread pool to process alerts in parallel and a Jinja2 template to render messages.
+#
+    #    Returns:
+    #    A dictionary containing phone numbers as keys and a list of messages as values.
+    #    """
+    #    alerts = json.loads(self.request.body)
+    #    logging.debug(self.request.body)
+    #    phones_to_messages = {}
+#
+    #    with Pool() as pool:
+    #        j2_env = Environment(loader=FileSystemLoader(
+    #            'templates'), trim_blocks=True)
+    #        partial_process_alert = partial(
+    #            self.process_alert, j2_env=j2_env, phones_to_messages=phones_to_messages)
+    #        pool.map(partial_process_alert, [
+    #                     (alert, j2_env, phones_to_messages) for alert in alerts['alerts']])
+#
+    #    return phones_to_messages
+
     @run_on_executor
     def background_task(self):
-        """
-        Executes a background task that processes alerts and sends messages to phones.
-        Uses a thread pool to process alerts in parallel and a Jinja2 template to render messages.
-
-        Returns:
-        A dictionary containing phone numbers as keys and a list of messages as values.
-        """
+        messages = {}
+        main_script_path = sys.argv[0]
+        main_script_dir = os.path.dirname(
+            os.path.abspath(main_script_path))
+        templates_dir = os.path.join(
+            main_script_dir, 'templates')
+        j2_env = Environment(loader=FileSystemLoader(templates_dir),
+                             trim_blocks=True)
         alerts = json.loads(self.request.body)
         logging.debug(self.request.body)
-        phones_to_messages = {}
-
-        def process_alert(alert, j2_env):
-            """
-            Process an alert and send messages to associated phones.
-
-            Args:
-                alert (dict): A dictionary containing information about the alert.
-                j2_env (jinja2.Environment): A Jinja2 environment object.
-
-            Returns:
-                None
-            """
+        for alert in alerts['alerts']:
             phones = alert['labels']['phone'].split('|')
             if alert['status'] == 'resolved':
-                start_at = parse(alert['startsAt'])
-                ends_at = parse(alert['endsAt'])
-                duration = ends_at - start_at
+                startAt = parse(alert['startsAt'])
+                endsAt = parse(alert['endsAt'])
+                duration = endsAt - startAt
             else:
                 duration = '00:00:00'
             msg = j2_env.get_template('template.html').render(
                 message=alert, lasted=str(duration))
             for phone in phones:
-                if phone not in phones_to_messages:
-                    phones_to_messages[phone] = []
-                phones_to_messages[phone].append(msg)
-
-        with Pool() as pool:
-            j2_env = Environment(loader=FileSystemLoader(
-                'templates'), trim_blocks=True)
-            partial_process_alert = partial(process_alert, j2_env=j2_env)
-            pool.map(partial_process_alert, alerts['alerts'])
-
-        return phones_to_messages
-
-    # @run_on_executor
-    # def backgroud_task(self):
-    #    messages = {}
-    #    j2_env = Environment(loader=FileSystemLoader('templates'),
-    #                     trim_blocks=True)
-    #    alerts = json.loads(self.request.body)
-    #    logging.debug(self.request.body)
-    #    for alert in alerts['alerts']:
-    #        phones = alert['labels']['phone'].split('|')
-    #        if alert['status'] == 'resolved':
-    #            startAt = parse(alert['startsAt'])
-    #            endsAt = parse(alert['endsAt'])
-    #            duration = endsAt - startAt
-    #        else:
-    #            duration = '00:00:00'
-    #        msg = j2_env.get_template('template.html').render(
-    #                                message = alert, lasted = str(duration))
-    #        for phone in phones:
-    #            if phone not in messages:
-    #                messages[phone] = []
-    #            messages[phone].append(msg)
-    #    return messages
+                if phone not in messages:
+                    messages[phone] = []
+                messages[phone].append(msg)
+        return messages
 
 
 def make_app():
