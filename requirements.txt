@@ -6,7 +6,7 @@ certifi==2024.7.4
 confuse==1.6.0
 Jinja2==3.1.6
 MarkupSafe==2.0.1
-pip==26.0
+pip==26.1
 pyaes==1.6.1
 Pyrogram==1.2.9
 PySocks==1.7.1
